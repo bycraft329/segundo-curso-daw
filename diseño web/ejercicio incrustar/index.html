@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi página de contenido incrustado</title>
+    <style>
+        body { font-family: Arial; background-color: beige; margin: 20px; }
+        header, footer { background-color: lightblue; padding: 15px; text-align: center; }
+        h2 { color: darkblue; }
+        img, iframe, video { max-width: 100%; }
+        a { color: blue; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mi web de HTML</h1>
+        <p>Ejemplos de contenido incrustado</p>
+    </header>
+
+    <nav>
+        <p><a href="segunda.html">Ir a la segunda página</a></p>
+    </nav>
+
+    
+        <section>
+            <h2>Imagen (img)</h2>
+            <p>Esta etiqueta sirve para poner imágenes.</p>
+            <img src="charmander.jpg" alt="Imagen de ejemplo" width="300">
+        </section>
+
+        <section>
+            <h2>Página dentro de otra (iframe)</h2>
+            <p>Esta etiqueta permite mostrar otra página web.</p>
+            <iframe src="segunda.html" width="400" height="180" title="Mi segunda página"></iframe>
+        </section>
+
+        
+
+<section>
+    <h2>Archivo incrustado (embed)</h2>
+    <p>Con embed podemos mostrar un documento PDF.</p>
+
+    <embed src="charmanderPokedex.pdf"
+           type="application/pdf"
+           width="600"
+           height="500">
+</section>
+
+
+
+        <section>
+            <h2>Objeto (object)</h2>
+            <p>Con object también podemos insertar contenido externo.</p>
+            <object data="charmanderpokedex.pdf" type="application/pdf" width="400" height="220"></object>
+        </section>
+
+        <section>
+            
+            
+<h2>Video de Charmander</h2>
+
+<video width="300" controls autoplay loop muted>
+    <source src="charmandergoat.webm" type="video/webm">
+</video>
+
+
+        </section>
+    
+
+    <footer>
+        <p>Trabajo de HTML - <a href="segunda.html">Segunda página</a></p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<html>
+
+    <head>
+        <title>Ejemplo2</title>
+    </head>
+
+    <body>
+    </body>
+    
+    <script>
+
+const fechaA = new Date(2026, 0, 1);
+const fechaB = new Date(2026, 0, 9);
+console.log(calcularDiasDiferencia(fechaA, fechaB));
+
+function calcularDiasDiferencia(FechaInicio,FechaFin ) {
+    const diferenciaTiempo = new Date(FechaFin - FechaInicio);
+    const tiempoDiferencia = diferenciaTiempo.getTime();
+    const diasDiferencia = tiempoDiferencia / (1000 * 3600 * 24);
+    return Math.round(diasDiferencia);
+
+
+
+  }
+
+    </script>
+
+</html>

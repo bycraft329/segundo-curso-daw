@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+    <fieldset>
+        <legend>Datos Academicos</legend>
+        <label for="asignatura">Asignatura: </label>
+        <input id="asignatura" type="text"><br>
+
+        <label for="Hora">Hora </label>
+        <select id="Hora">
+            <!--Etiqueta option-->
+            <optgroup label="Mañana">
+                <option value="value1">8:00</option> 
+                <option value="value2" selected>9:00</option>
+                <option value="value3">10:00</option> 
+                <option value="value4" selected>11:00</option>
+            </optgroup>
+            <optgroup label="Tarde">
+                <option value="value5">16:00</option> 
+                <option value="value6" selected>17:00</option>
+                <option value="value7">18:00</option> 
+                <option value="value8" selected>19:00</option>
+            </optgroup>
+        </select><br><br>
+    
+        <label for="asignaturas">Asignaturas: </label>
+        <input list="asignaturas">
+        <datalist id="asignaturas">
+            <option value="Entorno de servidor">
+            <option value="Diseño web">
+            <option value="Programacion">
+            <option value="Base de datos">
+        </datalist><br><br>
+
+        <label>Curso: </label>
+        <input type="checkbox" value="2026-27"> 2026-27
+        <input type="checkbox" value="2027-28"> 2027-28
+        <br><br>
+
+       
+
+
+        
+    </fieldset>  
+    <input type="submit" value="Enviar">
+</form>
+</body>
+</html>

@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Segunda página</title>
+    <style>
+        body { font-family: Arial; background-color: beige; margin: 20px; }
+        header, footer { background-color: lightblue; padding: 15px; text-align: center; }
+        h2 { color: darkblue; }
+        a { color: blue; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Segunda página de HTML</h1>
+        <p>Más ejemplos de contenido incrustado</p>
+    </header>
+
+    <nav>
+        <p><a href="index.html">Volver a la primera página</a></p>
+    </nav>
+
+    
+        
+<section>
+    <h2>Audio (audio)</h2>
+    <p>Esta etiqueta sirve para reproducir sonidos.</p>
+
+   
+<audio controls>
+    <source src="./Grito_de_Charmander.mp3" type="audio/mpeg">
+</audio>
+
+</section>
+
+
+
+
+        <section>
+            <h2>Canvas (canvas)</h2>
+            <p>Esta etiqueta permite dibujar gráficos.</p>
+
+            <canvas id="dibujo" width="300" height="150"
+                    style="border: 1px solid black;">
+            </canvas>
+
+            <script>
+                var canvas = document.getElementById("dibujo");
+                var ctx = canvas.getContext("2d");
+
+                ctx.fillStyle = "orange";
+                ctx.fillRect(30, 30, 100, 80);
+            </script>
+        </section>
+
+        <section>
+            <h2>SVG (svg)</h2>
+            <p>Esta etiqueta sirve para crear dibujos vectoriales.</p>
+
+            <svg width="200" height="150">
+                <rect x="50" y="20" width="300" height="100" style="fill:blue" />
+            </svg>
+        </section>
+    
+
+    <footer>
+        <p>Trabajo de HTML -
+            <a href="index.html">Primera página</a>
+        </p>
+    </footer>
+</body>
+</html>

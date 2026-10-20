@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 9</title>
+</head>
+
+<body>
+
+    <h1>Secuencia de imágenes</h1>
+
+    <img id="imagen"
+         src="https://picsum.photos/id/10/400/300"
+         width="400"
+         onclick="cambiarImagen()">
+
+
+    <script>
+
+        function cambiarImagen() {
+
+            let imagen = document.getElementById("imagen");
+
+
+            if (imagen.src.includes("/id/10/")) {
+
+                imagen.src = "https://picsum.photos/id/20/400/300";
+
+            } else if (imagen.src.includes("/id/20/")) {
+
+                imagen.src = "https://picsum.photos/id/30/400/300";
+
+            } else if (imagen.src.includes("/id/30/")) {
+
+                imagen.src = "https://picsum.photos/id/40/400/300";
+
+            } else {
+
+                imagen.src = "https://picsum.photos/id/10/400/300";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>

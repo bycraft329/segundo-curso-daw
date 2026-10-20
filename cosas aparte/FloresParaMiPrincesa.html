@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Un universo para ti 💛</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:Arial,sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+canvas.dragging{cursor:grabbing}
+.hud{position:fixed;inset:0;pointer-events:none}
+.title{position:absolute;top:24px;left:50%;transform:translateX(-50%);text-align:center;text-shadow:0 0 18px #ffca28}
+.title h1{margin:0;font-size:clamp(20px,4vw,34px);font-weight:500}
+.title p{margin:6px 0;font-size:13px;opacity:.7}
+.controls{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:10px;pointer-events:auto}
+button{border:1px solid rgba(255,210,70,.5);background:rgba(10,10,10,.72);color:#ffe57a;border-radius:999px;padding:11px 17px;font-size:14px;cursor:pointer;backdrop-filter:blur(8px)}
+button:hover{background:rgba(255,190,30,.12)}
+.message{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(420px,80%);padding:22px;text-align:center;border:1px solid rgba(255,220,80,.35);border-radius:20px;background:rgba(0,0,0,.75);box-shadow:0 0 40px rgba(255,190,30,.15);opacity:0;pointer-events:none;transition:.3s}
+.message.show{opacity:1;pointer-events:auto}
+.message h2{margin:0 0 10px;color:#ffe06b;font-size:25px}
+.message p{margin:0;line-height:1.6;color:#eee}
+.hint{position:absolute;right:18px;bottom:22px;font-size:11px;opacity:.5;text-align:right}
+</style>
+</head>
+<body>
+<canvas id="space"></canvas>
+
+<div class="hud">
+  <div class="title">
+    <h1>Para ti, mi amor 💛</h1>
+    <p>Arrastra para viajar entre nuestras flores</p>
+  </div>
+
+  <div id="message" class="message">
+    <h2 id="msgTitle"></h2>
+    <p id="msgText"></p>
+    <br>
+    <button id="close" type="button">Seguir viajando ✨</button>
+  </div>
+
+  <div class="controls">
+    <button id="prev" type="button">← Anterior</button>
+    <button id="home" type="button">✦ Centro</button>
+    <button id="next" type="button">Siguiente →</button>
+  </div>
+
+  <div class="hint">🖱️ Arrastra · rueda para acercar<br>📱 Desliza · toca una flor</div>
+</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('space');
+  const ctx = canvas.getContext('2d');
+  const message = document.getElementById('message');
+  const msgTitle = document.getElementById('msgTitle');
+  const msgText = document.getElementById('msgText');
+
+  const messages = [
+    ["Te amo 💛","No necesito una fecha especial para recordarte lo muchísimo que te quiero."],
+    ["Gracias por estar siempre","Gracias por cada abrazo, cada sonrisa y cada momento que compartimos."],
+    ["Contigo todo es mejor","Hasta los días normales se convierten en recuerdos que quiero guardar para siempre."],
+    ["Eres mi persona favorita","Entre millones de personas, volvería a elegirte a ti una y otra vez."],
+    ["Haces mi vida más bonita","Tu forma de ser ilumina mis días más de lo que imaginas."],
+    ["Siempre juntos 🌻","Quiero seguir creando contigo muchísimos recuerdos y aventuras."],
+    ["Mi lugar seguro","Contigo puedo ser yo mismo. Gracias por hacerme sentir en casa."],
+    ["Por todos nuestros momentos","Y por todos los que todavía nos quedan por vivir. ❤️"]
+  ];
+
+  let W=0,H=0,dpr=1;
+  let yaw=0,pitch=-.05,zoom=1;
+  let dragging=false,lastX=0,lastY=0;
+  let selected=0;
+
+  const stars=[];
+  const flowers=[];
+
+  function resize(){
+    dpr=Math.min(devicePixelRatio||1,2);
+    W=innerWidth; H=innerHeight;
+    canvas.width=W*dpr; canvas.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  addEventListener('resize',resize);
+
+  // Deterministic pseudo-random generator.
+  let seed=92731;
+  function rnd(){
+    seed=(seed*1664525+1013904223)>>>0;
+    return seed/4294967296;
+  }
+
+  // Background stars.
+  for(let i=0;i<850;i++){
+    stars.push({
+      x:rnd()*2-1,y:rnd()*2-1,z:rnd()*2-1,
+      s:.4+rnd()*1.8,a:.25+rnd()*.7
+    });
+  }
+
+  function particleFlower(index,x,y,z,scale){
+    const pts=[];
+    const count=620;
+    const golden=0.61803398875;
+    for(let i=0;i<count;i++){
+      const u=i/count;
+      const angle=i*golden*Math.PI*2;
+      const r=Math.sqrt(u);
+      const petal=Math.cos(angle*5);
+      const radius=(0.18+0.56*Math.max(0,petal))*r;
+      const px=Math.cos(angle)*radius;
+      const py=Math.sin(angle)*radius;
+      const pz=(rnd()-.5)*.12 + Math.sin(angle*3)*.035;
+      pts.push({x:x+px*scale,y:y+py*scale,z:z+pz*scale});
+    }
+
+    // Stem
+    for(let i=0;i<100;i++){
+      const t=i/99;
+      pts.push({
+        x:x+Math.sin(t*4)*.08*scale,
+        y:y+(0.62+t*.72)*scale,
+        z:z+(rnd()-.5)*.04
+      });
+    }
+
+    // Heart-shaped center particles.
+    for(let i=0;i<130;i++){
+      const t=rnd()*Math.PI*2;
+      const rr=Math.sqrt(rnd())*.16;
+      const hx=16*Math.pow(Math.sin(t),3)/16;
+      const hy=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))/16;
+      pts.push({x:x+hx*rr/0.16*scale,y:y+hy*rr/0.16*scale,z:z+(rnd()-.5)*.08});
+    }
+
+    flowers.push({
+      x,y,z,scale,index,pts,
+      rot:rnd()*Math.PI*2,
+      size:1
+    });
+  }
+
+  // Flowers distributed through a navigable 3D space.
+  const positions=[
+    [0,0,.25,1.65],
+    [-1.7,.15,-.2,1.0],
+    [1.7,-.1,-.35,1.0],
+    [-2.9,-.45,-.9,.78],
+    [2.9,.45,-1.0,.82],
+    [-1.3,-1.25,-1.45,.72],
+    [1.35,1.15,-1.65,.74],
+    [0,1.9,-2.2,.68]
+  ];
+  positions.forEach((p,i)=>particleFlower(i,...p));
+
+  function project(p){
+    // Camera rotation: yaw then pitch.
+    let x=p.x*Math.cos(yaw)-p.z*Math.sin(yaw);
+    let z=p.x*Math.sin(yaw)+p.z*Math.cos(yaw);
+    let y=p.y*Math.cos(pitch)-z*Math.sin(pitch);
+    z=p.y*Math.sin(pitch)+z*Math.cos(pitch);
+
+    const depth=z+4.8;
+    const f=520*zoom/depth;
+    return {x:W/2+x*f,y:H/2+y*f,scale:f,z};
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="#000";
+    ctx.fillRect(0,0,W,H);
+
+    // Stars.
+    for(const s of stars){
+      const p=project({x:s.x*5,y:s.y*3.2,z:s.z*3});
+      if(p.x<0||p.x>W||p.y<0||p.y>H) continue;
+      const r=Math.max(.35,s.s*p.scale/520);
+      ctx.globalAlpha=s.a;
+      ctx.fillStyle="#ffe48a";
+      ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill();
+    }
+
+    // Project particles and sort by depth.
+    const render=[];
+    for(const f of flowers){
+      for(const pt of f.pts){
+        render.push({f,pt,p:project(pt)});
+      }
+    }
+    render.sort((a,b)=>a.p.z-b.p.z);
+
+    for(const q of render){
+      const p=q.p;
+      if(p.x<-20||p.x>W+20||p.y<-20||p.y>H+20) continue;
+      const active=q.f.index===selected;
+      const r=Math.max(.45,(active?1.65:1.2)*q.f.scale*p.scale/520);
+      ctx.globalAlpha=Math.min(1,Math.max(.15,.25+((q.p.z+3)/7)));
+      ctx.fillStyle=active?"#ffe56b":"#f8bd22";
+      ctx.shadowBlur=active?7:3;
+      ctx.shadowColor="#ffc400";
+      ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill();
+    }
+    ctx.shadowBlur=0;
+
+    // Selected flower label.
+    const f=flowers[selected];
+    const center=project({x:f.x,y:f.y,z:f.z});
+    ctx.globalAlpha=.9;
+    ctx.fillStyle="#fff2a3";
+    ctx.font="600 15px Arial";
+    ctx.textAlign="center";
+    ctx.fillText(messages[selected][0],center.x,center.y+f.scale*260*center.scale/520+24);
+    ctx.globalAlpha=1;
+
+    requestAnimationFrame(draw);
+  }
+
+  function showMessage(i){
+    selected=(i+messages.length)%messages.length;
+    msgTitle.textContent=messages[selected][0];
+    msgText.textContent=messages[selected][1];
+    message.classList.add('show');
+  }
+
+  function move(dir){
+    selected=(selected+dir+messages.length)%messages.length;
+    const target=flowers[selected];
+    yaw=Math.atan2(target.x,target.z)*.75;
+    pitch=-target.y*.08;
+    showMessage(selected);
+  }
+
+  document.getElementById('next').addEventListener('click',()=>move(1));
+  document.getElementById('prev').addEventListener('click',()=>move(-1));
+  document.getElementById('home').addEventListener('click',()=>{
+    selected=0;yaw=0;pitch=-.05;zoom=1;showMessage(0);
+  });
+  document.getElementById('close').addEventListener('click',()=>message.classList.remove('show'));
+
+  canvas.addEventListener('pointerdown',e=>{
+    dragging=true;lastX=e.clientX;lastY=e.clientY;
+    canvas.classList.add('dragging');
+    canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener('pointermove',e=>{
+    if(!dragging)return;
+    yaw+=(e.clientX-lastX)*.006;
+    pitch+=(e.clientY-lastY)*.004;
+    pitch=Math.max(-1.1,Math.min(1.1,pitch));
+    lastX=e.clientX;lastY=e.clientY;
+  });
+  canvas.addEventListener('pointerup',e=>{
+    dragging=false;canvas.classList.remove('dragging');
+    try{canvas.releasePointerCapture(e.pointerId)}catch(_){}
+  });
+  canvas.addEventListener('pointercancel',()=>{dragging=false;canvas.classList.remove('dragging')});
+
+  canvas.addEventListener('wheel',e=>{
+    e.preventDefault();
+    zoom*=Math.exp(-e.deltaY*.0008);
+    zoom=Math.max(.55,Math.min(1.8,zoom));
+  },{passive:false});
+
+  canvas.addEventListener('click',e=>{
+    if(Math.abs(e.clientX-lastX)>5||Math.abs(e.clientY-lastY)>5)return;
+    let best=-1,bestDist=70;
+    flowers.forEach((f,i)=>{
+      const p=project(f);
+      const d=Math.hypot(e.clientX-p.x,e.clientY-p.y);
+      if(d<bestDist){bestDist=d;best=i}
+    });
+    if(best>=0)showMessage(best);
+  });
+
+  addEventListener('keydown',e=>{
+    if(e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)return;
+    if(e.key==="ArrowRight")move(1);
+    if(e.key==="ArrowLeft")move(-1);
+    if(e.key==="Escape")message.classList.remove('show');
+  });
+
+  resize();
+  showMessage(0);
+  draw();
+})();
+</script>
+</body>
+</html>

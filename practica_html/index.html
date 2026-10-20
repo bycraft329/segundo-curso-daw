@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explora el mundo | Contenido incrustado</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f2f6fa; color: #203047; line-height: 1.6; }
+    header { background: linear-gradient(120deg, #12395d, #087f9b); color: white; text-align: center; padding: 55px 20px; }
+    header h1 { margin: 0; font-size: 2.6rem; }
+    header p { font-size: 1.1rem; }
+    nav { background: #102c49; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 5; }
+    nav a { color: white; text-decoration: none; padding: 9px 16px; margin: 0 5px; border-radius: 6px; }
+    nav a:hover { background: #159aba; }
+    main { max-width: 1050px; margin: 36px auto; padding: 0 18px; }
+    .intro { text-align: center; margin-bottom: 30px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    article { background: white; padding: 23px; border-radius: 14px; box-shadow: 0 6px 20px rgba(24, 53, 79, .09); border-top: 5px solid #0b90ac; }
+    article h2 { color: #0c6481; margin: 0 0 8px; }
+    code { background: #e4f4fa; color: #085a76; border-radius: 5px; padding: 3px 7px; }
+    .media { display: block; width: 100%; height: 240px; margin-top: 14px; border: 1px solid #cbdde6; border-radius: 9px; background: #e8f3fa; object-fit: cover; }
+    .wide { grid-column: 1 / -1; }
+    .wide .media { height: 300px; }
+    .enlace { display: inline-block; background: #f28c28; color: #172b3b; text-decoration: none; font-weight: bold; padding: 12px 22px; border-radius: 8px; margin-top: 12px; }
+    .enlace:hover { background: #ffc071; transform: translateY(-2px); }
+    aside { margin-top: 30px; background: #d9eff6; border-left: 5px solid #0b90ac; padding: 20px 26px; border-radius: 8px; }
+    footer { background: #102c49; color: white; text-align: center; padding: 23px; margin-top: 38px; }
+    @media (max-width: 690px) { header h1 { font-size: 2rem; } .grid { grid-template-columns: 1fr; } .wide { grid-column: auto; } nav a { display: inline-block; } }
+  </style>
+</head>
+<body>
+  <header id="inicio">
+    <h1>🌍 Explora el mundo</h1>
+    <p>Una web para descubrir cómo incrustar contenido multimedia con HTML5</p>
+  </header>
+
+  <nav aria-label="Navegación principal">
+    <a href="#inicio">Inicio</a>
+    <a href="#ejemplos">Ejemplos</a>
+    <a href="segunda.html">Segunda página →</a>
+  </nav>
+
+  <main>
+    <section class="intro" aria-labelledby="presentacion">
+      <h2 id="presentacion">Contenido incrustado en HTML</h2>
+      <p>En esta página se muestran ejemplos reales de cinco etiquetas: <code>&lt;img&gt;</code>, <code>&lt;iframe&gt;</code>, <code>&lt;embed&gt;</code>, <code>&lt;object&gt;</code> y <code>&lt;video&gt;</code>.</p>
+    </section>
+
+    <section id="ejemplos" class="grid" aria-label="Ejemplos de etiquetas HTML">
+      <article>
+        <h2>1. Imagen — <code>&lt;img&gt;</code></h2>
+        <p>Esta etiqueta permite mostrar una imagen en la página.</p>
+        <img class="media" src="paisaje.svg" alt="Ilustración de un paisaje con montañas, lago y sol">
+      </article>
+
+      <article>
+        <h2>2. Página incrustada — <code>&lt;iframe&gt;</code></h2>
+        <p>Permite mostrar otra página HTML dentro de esta misma página.</p>
+        <iframe class="media" src="miniweb.html" title="Mini página HTML incrustada" loading="lazy"></iframe>
+      </article>
+
+      <article>
+        <h2>3. Archivo incrustado — <code>&lt;embed&gt;</code></h2>
+        <p>Sirve para insertar un recurso externo, como un documento PDF.</p>
+        <embed class="media" src="guia.pdf" type="application/pdf" title="Guía de viaje en PDF">
+        <p><a href="guia.pdf" target="_blank" rel="noopener">Abrir el PDF si no se muestra</a></p>
+      </article>
+
+      <article>
+        <h2>4. Recurso externo — <code>&lt;object&gt;</code></h2>
+        <p>Permite incluir archivos de diferentes tipos. Aquí aparece una ilustración SVG.</p>
+        <object class="media" data="brujula.svg" type="image/svg+xml" aria-label="Dibujo de una brújula">
+          Tu navegador no puede mostrar el dibujo. <a href="brujula.svg">Ver la brújula</a>.
+        </object>
+      </article>
+
+      <article class="wide">
+        <h2>5. Vídeo — <code>&lt;video&gt;</code></h2>
+        <p>Con esta etiqueta insertamos un vídeo con controles para reproducir, pausar y ajustar el volumen. Necesita conexión a Internet para cargar el archivo de ejemplo.</p>
+        <video class="media" controls preload="metadata" poster="paisaje.svg">
+          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+          Tu navegador no puede reproducir este vídeo.
+        </video>
+      </article>
+    </section>
+
+    <aside>
+      <h2>¿Seguimos explorando?</h2>
+      <p>Esta actividad tiene dos niveles. Haz clic para visitar la segunda página, que completaremos con las próximas etiquetas de HTML.</p>
+      <a class="enlace" href="segunda.html">Ir a la segunda página →</a>
+    </aside>
+  </main>
+
+  <footer>
+    <p>Práctica de HTML · RA1, criterio e · Contenido incrustado</p>
+  </footer>
+</body>
+</html>
