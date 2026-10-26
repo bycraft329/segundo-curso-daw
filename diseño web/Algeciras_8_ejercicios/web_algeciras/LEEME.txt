@@ -1,0 +1,18 @@
+PROYECTO: DESCUBRE ALGECIRAS
+
+Abre index.html en el navegador. Tiene 8 páginas secundarias:
+noticia.html, reserva.html, horarios.html, galeria.html, video.html, 404.html, cards.html y landing.html.
+
+EQUIVALENCIAS CON LOS 8 EJERCICIOS DE INFOGONZALEZ:
+1 Noticia -> article, time, aside.
+2 Reserva -> form, fieldset, label, input, radio, range, checkbox.
+3 Horarios -> table, caption, thead, tbody, tfoot, rowspan, colspan.
+4 Galería -> figure, img, figcaption y CSS grid adaptable.
+5 Vídeo -> video, source y track con subtítulos VTT.
+6 Error 404 -> animación CSS @keyframes.
+7 Tarjetas -> article y data-category.
+8 Landing -> página de anuncio de próximo contenido.
+
+Los horarios y reservas son simulaciones; no existe un backend. Las imágenes son ilustraciones SVG originales.
+Los estilos se escriben dentro de <style>. Se usan 9 propiedades CSS distintas de forma principal.
+Fuente de referencia: https://infogonzalez.com/%F0%9F%93%9A-post-de-ejercicios-resueltos-html-nivel-medio/

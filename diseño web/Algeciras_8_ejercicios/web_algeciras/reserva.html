@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formulario de reserva de visita | Descubre Algeciras</title>
+<style>
+body {font-family: Arial, sans-serif; margin: 0; background: #f2f6fb; color: #17324d;}
+header, footer {background: #12395b; color: white; padding: 18px;}
+main {max-width: 960px; margin: 24px auto; padding: 20px;}
+nav a {color: #ffe2a1; padding: 6px;}
+section, article, fieldset, figure {background: white; padding: 16px; border: 1px solid #cbd9e5;}
+.grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));}
+img, video {max-width: 100%;}
+</style>
+
+</head>
+<body>
+<header><h1>Descubre Algeciras</h1><p>Ocho ejercicios de HTML nivel medio</p><nav aria-label="Menú principal"><a href="index.html">Inicio</a> · <a href="noticia.html">Noticia</a> · <a href="reserva.html">Reserva</a> · <a href="horarios.html">Horarios</a> · <a href="galeria.html">Galería</a> · <a href="video.html">Vídeo</a> · <a href="404.html">Error 404</a> · <a href="cards.html">Tarjetas</a> · <a href="landing.html">Próximamente</a></nav></header>
+<main><h2>Formulario de reserva de visita</h2><p>Ejemplo de formulario HTML para apuntarse a una visita cultural. No envía datos a ningún servidor.</p><form action="#" method="get"><fieldset><legend>Datos de la visita</legend><p><label>Nombre: <input type="text" name="nombre" required></label></p><p><label>Correo: <input type="email" name="correo" required></label></p><p><label>Fecha: <input type="date" name="fecha" required></label></p><p>Turno:</p><p><label><input type="radio" name="turno" value="manana" required> Mañana</label> <label><input type="radio" name="turno" value="tarde"> Tarde</label></p><p><label>Interés en historia (1 a 10): <input type="range" name="interes" min="1" max="10" value="5"></label></p><p><label><input type="checkbox" name="informacion"> Quiero recibir información cultural (simulación)</label></p><button type="submit">Probar formulario</button></fieldset></form></main>
+<footer><p>Proyecto académico · Algeciras e historia · <a href="index.html">Volver al inicio</a></p></footer>
+</body></html>
